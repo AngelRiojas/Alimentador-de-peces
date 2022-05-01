@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<title>Sistemas Embebidos</title>
+		<link rel="icon" href="img/its-logo.png">
+		<link rel="stylesheet" href="css/estilos2.css">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			//var accessToken = "b3d11770cc5d99ff6760ae6926483f4be900c764";
+			//var deviceID = "190025001947353236343033"
+			var accessToken = "5a367b436eaf2d824aef4171a20045b707ff0a7d";
+			var deviceID = "200022000947373336323230"
+			var url = "https://api.particle.io/v1/devices/" + deviceID + "/servoF";
+
+			function callback(data, status){
+				var datos = JSON.parse(data);
+				alert(datos.return_value);
+				if (status == "success") {
+					if(datos.return_value == 1){
+						document.getElementById("b1").style.backgroundColor = "#04AA6D";
+						document.getElementById("b1").style.color = "white";
+						document.getElementById("imgcontenido").src = "img/peces.png";
+						document.getElementById("body").style.background = "#BDEEFF";
+						TMR = setTimeout ('resetChange ()', 1500); //manda llamar al método despu[es de 1,5 seg
+					} 
+					if (datos.return_value == -1) {
+						alert("No está ese parámetro.");
+					} 
+				}
+				else {
+					alert("There was a problem.");
+				}
+			}
+			
+			function resetChange(){
+				document.getElementById("b1").style.backgroundColor = "#6DD9FE";
+				document.getElementById("b1").style.color = "#252932";
+				document.getElementById("imgcontenido").src = "img/embebidos-logo.png";
+				document.getElementById("body").style.background = "#fffffa";
+				alert("Listo");
+			}
+
+			function switchOn(){
+				$.post(url, {params: "on", access_token: accessToken }, callback);
+				
+			}  
+			/*
+			function switchOff(){
+				$.post(url, {params: "off", access_token: accessToken }, callback);
+			}*/  
+
+		</script>
+	</head>	
+
+
+	<body id = "body">
+		<header class="header">
+			<div class="wrapper">
+				<div class="logo"><img src="img/embebidos-logo.png" alt="logo">  Sistemas Embebidos</div>
+				<nav>
+					<div class="logo">Instituto Tecnológico de Saltillo  <img src="img/its-logo.png" alt="logo"></div>
+				</nav>
+			</div>
+		</header>
+
+		<div class="contenido wrapper">
+			<div class="mensaje">
+				<center><h1>ALIMENTADOR DE PECES</h1></center>
+			</div>
+
+			<div class="contenidoPractica">
+				<center>
+					<div class="contenidoBoton">
+						<img id="imgcontenido" src="img/embebidos-logo.png" class="imgCont" alt="logo">
+						<h1>Control de Alimentador de peces.</h1>
+						<input id="b1" type="button" onClick="switchOn()" class="button" value="ALIMENTAR"/>
+						<div id="result"></div>
+					</div>
+				</center>	
+			</div>
+			
+			<div class="wrapper">
+				<p class="autor">Autores:<br> Angel Alejandro Riojas Alvarado <br>
+					Azael Miramontes Hernandez </p>
+			</div> 
+
+		</div>
+		
+		<footer>
+			<div class="wrapper">
+				<p>Sistemas Computacionales</p>
+			</div>
+		</footer>
+		
+	</body>
+</html>
